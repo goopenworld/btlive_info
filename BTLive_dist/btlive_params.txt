@@ -1,0 +1,54 @@
+usage: BTLive.exe [-h] [-v] [--force-version FORCED_VER] [-o OFFSET]
+                  [-j TRACKER|SWARMPUBKEY] [--no-crashlog-reporting]
+                  [--no-stats-thread] [--no-bench-thread] [--no-update-thread]
+                  [--no-headless-thread] [--no-nat-detection]
+                  [--no-rtmp-server] [--no-http-server] [--no-local-discovery]
+                  [--no-sysreqs] [--ignore-headless | --force-headless]
+                  [--staging-bench] [--staging-dau] [--staging-onair]
+                  [--testing-mode] [--debug-logging]
+                  [-u | -r | -i INSTALL | -f | -n] [-s]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -v, --version         show program's version number and exit
+  --force-version FORCED_VER
+                        Forces Live to think that it is another version
+                        number. Must follow format 0.4.11.1234.
+  -o OFFSET, --offset OFFSET
+                        RTMP Server port offset (from 1935). A value of 100 is
+                        commonly used for sourcing.
+  -j TRACKER|SWARMPUBKEY, --join TRACKER|SWARMPUBKEY
+                        Swarm to autojoin on launch. Specify the tracker and
+                        the swarm public key, separated by a pipe symbol
+                        ('|').
+  --no-crashlog-reporting
+                        Disable all communication with the crashlog server.
+  --no-stats-thread     Disable debugging statistics being reported to
+                        graphite/statsd.
+  --no-bench-thread     Disable bench statistics.
+  --no-update-thread    Disable autoupdate checking.
+  --no-headless-thread  Disable all communication with the automation server.
+  --no-nat-detection    Disable NAT detection on launch.
+  --no-rtmp-server      Disable RTMP server.
+  --no-http-server      Disable HTTP server.
+  --no-local-discovery  Disable local peer discovery.
+  --no-sysreqs          Disable system requirements for launch/install.
+  --ignore-headless     Set headless_enabled pref to off and ignore any
+                        scheduled tests.
+  --force-headless      Set headless_enabled pref to on and join any scheduled
+                        tests.
+  --staging-bench       Use staging bench server for bench statistics.
+  --staging-dau         Use staging server for autoupdate.
+  --staging-onair       Use staging server for on-air messaging.
+  --testing-mode        Disable all non-essential network communication.
+                        Implies --no-crashlog-reporting, --no-nat-detection,
+                        --no-stats-thread, --no-update-thread, --no-headless-
+                        thread, and --no-sysreqs.
+  --debug-logging       Enable spammy debug logging.
+  -u, --uninstall-tmp   Run uninstall from tmp.
+  -r, --uninstall       Run uninstall from Program Files.
+  -i INSTALL, --install INSTALL
+                        Install to specified location.
+  -f, --force-install   Force the install process to happen.
+  -n, --no-install      Don't install (for testing)
+  -s, --silent-install  Install live without showing the tool tip messages.

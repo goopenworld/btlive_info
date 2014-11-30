@@ -1,0 +1,94 @@
+Streaming:
+  
+  Public key is generated from private key which is used in streaming rtmp address, it's displayed on the site in control panel.
+
+  Sample streaming rtmp address:
+  rtmp://localhost:1935/tracker.live.bittorrent.com:3000/71F6D8B6EDAD8A7E1787AD66E489F74800BEAA53BD9EBD5A6C79F6E6C87A0D32
+
+  Format of streaming rtmp address:
+  rtmp://localhost:1935/<tracker>/<secret_key>
+
+    <tracker>     - tracker address, default: "tracker.live.bittorrent.com:3000"
+    <secret_key>  - your streaming secret key
+
+
+
+Playing:
+
+  Sample playing rtmp address:
+  rtmp://localhost:1935/tracker.live.bittorrent.com:3000/6D15E31A1F8A39294A329D89FD327EE0ADC3199E10FDCE79CE123F0AE9C6A83C
+
+  Format of playing rtmp address:
+  rtmp://localhost:1935/<tracker>/<public_key>
+
+    <tracker>     - tracker address, default: "tracker.live.bittorrent.com:3000"
+    <public_key>  - public key of the stream
+
+
+
+Table of secret keys, public keys for them, and swarms for public keys:
+  
+  <secret_key>                                                     - <public_key>                                                     - <swarm>
+  71F6D8B6EDAD8A7E1787AD66E489F74800BEAA53BD9EBD5A6C79F6E6C87A0D32 - 6D15E31A1F8A39294A329D89FD327EE0ADC3199E10FDCE79CE123F0AE9C6A83C - 4DF53B8193544E0EB20CDDAE5BA849DC998E7B21B397FEBB0474A1920F04C1EB
+
+  <public_key> = publickey() of <secret_key>  (see ed25519_sample.py)
+  <swarm>      = sha2(256)   of <public_key>
+
+
+
+Client subscribe messages to tracker when starting stream or play (len=37):
+
+  00 0000000F 4DF53B8193544E0EB20CDDAE5BA849DC998E7B21B397FEBB0474A1920F04C1EB
+
+  00       - btlive.type
+  0000000F - btlive.misc (client version id)
+  + <swarm> (channel id)
+
+
+
+Reply to subscribe message:
+
+  03 89C145E1 7AA8 0156019C0000000A40 04 825990557AA8 82537D667AA8 8253F57B7AA8 C1BF94E87AA8 C02987D27AA8 96FEB9EE7AA8 93535BD47AA8 98512F027AA8 825990567AA8 C02987D37AA8 82537D667AA8 C02987D37AA8 C1BF94E87AA8 825990557AA8 98512F027AA8 93535BD47AA8 825990567AA8 C02987D27AA8
+
+  03                 - btlive.type
+  89C145E1           - btlive.ip (ip of client tracker respose to)
+  7AA8               - btlive.port (31400)
+  0156019C0000000A40 - btlive.unknown (maybe uuid?)
+  04                 - btlive.misc (club number)
+  Peers:
+    82599055         - btlive.ip (peer ip)
+    7AA8             - btlive.port (peer port)
+    82537D66         - btlive.ip (peer ip)
+    7AA8             - btlive.port (peer port)
+    ...
+
+
+
+Unsubscribe message (len=38):
+
+  01 0000000F 01 4DF53B8193544E0EB20CDDAE5BA849DC998E7B21B397FEBB0474A1920F04C1EB
+
+  01       - btlive.type
+  0000000F - btlive.misc (client version id)
+  01       - btlive.unknown
+  + <swarm> (channel id)
+
+
+
+Heartbeat message to tracker (len=41):
+
+  02 0000000F 00000024 4DF53B8193544E0EB20CDDAE5BA849DC998E7B21B397FEBB0474A1920F04C1EB
+
+  02       - btlive.type
+  0000000F - btlive.misc (client version id)
+  00000024 - btlive.unknown
+  + <swarm> (channel id)
+
+
+
+Reply to heartbeat message (len=10):
+
+  2C 0156019C000000072B
+
+  2C                 - btlive.type
+  0156019C000000072B - btlive.unknown
